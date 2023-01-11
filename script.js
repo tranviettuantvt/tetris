@@ -198,6 +198,49 @@ const KEY_CODES = {
 ctx.canvas.width = COLS * BLOCK_SIZE;
 ctx.canvas.height = ROWS * BLOCK_SIZE;
 
+// Save the score
+const NO_OF_HIGH_SCORES = 5;
+const HIGH_SCORES = 'highScores';
+
+function saveHighScore(score, highScores) {
+  const name = prompt('You got a highscore! Enter name:');
+  const newScore = { score, name };
+  
+  // 1. Add to list
+  highScores.push(newScore);
+
+  // 2. Sort the list
+  highScores.sort((a, b) => b.score - a.score);
+  
+  // 3. Select new list
+  highScores.splice(NO_OF_HIGH_SCORES);
+  
+  // 4. Save to local storage
+  localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
+};
+
+function showHighScores() {
+  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
+  const highScoreList = document.getElementById('high-score');
+  
+  highScoreList.innerHTML = highScores
+    .map((score) => `<li>${score.name} - ${score.score}`)
+    .join('');
+}
+
+function checkHighScore(score) {
+  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
+  const lowestScore = highScores[NO_OF_HIGH_SCORES-1]?.score ?? 0;
+  
+  if (score > lowestScore) {
+    saveHighScore(score, highScores); // TODO
+    showHighScores(); // TODO
+  }
+}
+
+// show score when load page
+showHighScores()
+
 
 // Tao class BOARD
 class Board {
@@ -256,7 +299,7 @@ class Brick {
     this.layout = BRICK_LAYOUT[id]   //lay ra khoi gach
     this.activeIndex = 0    //lay ra huong cua khoi gach
     this.colPos = 4     // lay ra toa do xAxis
-    this.rowPos =-2  //Lay ra toa do yAsix
+    this.rowPos =0  //Lay ra toa do yAsix
   }
 
   drawLayout() {
@@ -405,7 +448,7 @@ playBtn.addEventListener('click', ()=> {
     playBtn.innerHTML='Play'
     playgame=setInterval(() => {
         brick.moveDown()
-    }, 1000)
+    }, 100)
     brick.drawLayout()
   }
 }
@@ -437,6 +480,7 @@ handleGameOver=() =>{
   board.gameOver=true;
   gameOOver.innerHTML='Game Over'
   playBtn.innerHTML='Finish'
+  checkHighScore(board.score);
   clearInterval(playgame)
   playgame=null
 }

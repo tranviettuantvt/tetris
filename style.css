@@ -29,7 +29,19 @@ body {
     padding: 15px 30px;
     cursor: pointer;
 }
+.tetris {
+    margin-top: 2px;
+}
 
-#gameOver{
-    margin-top: 50px;
+.side-bar-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#high-score {
+    margin-top: -5px;
+    list-style-type: none;
+    line-height: 2rem;
+    padding-left: 18px;
 }
