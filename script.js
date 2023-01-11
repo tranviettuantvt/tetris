@@ -299,7 +299,7 @@ class Brick {
     this.layout = BRICK_LAYOUT[id]   //lay ra khoi gach
     this.activeIndex = 0    //lay ra huong cua khoi gach
     this.colPos = 4     // lay ra toa do xAxis
-    this.rowPos =0  //Lay ra toa do yAsix
+    this.rowPos =-2  //Lay ra toa do yAsix
   }
 
   drawLayout() {
