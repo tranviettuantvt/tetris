@@ -224,7 +224,10 @@ function showHighScores() {
   const highScoreList = document.getElementById('high-score');
   
   highScoreList.innerHTML = highScores
-    .map((score) => `<li>${score.name} - ${score.score}`)
+    .map((score) => `<tr>
+        <td>${score.name}</td>
+        <td>${score.score}</td>
+      </tr>`)
     .join('');
 }
 
@@ -286,6 +289,7 @@ class Board {
     this.isPlay=false
     this.drawBoard()
     gameOOver.innerHTML=''
+    document.getElementById('score').innerHTML=this.score
   }
 }
 
@@ -299,7 +303,7 @@ class Brick {
     this.layout = BRICK_LAYOUT[id]   //lay ra khoi gach
     this.activeIndex = 0    //lay ra huong cua khoi gach
     this.colPos = 4     // lay ra toa do xAxis
-    this.rowPos =-2  //Lay ra toa do yAsix
+    this.rowPos =-1  //Lay ra toa do yAsix
   }
 
   drawLayout() {
@@ -430,6 +434,14 @@ board = new Board(ctx);
 board.drawBoard()
 generateNewBrick()
 
+handleGameOver=() =>{
+  board.gameOver=true;
+  gameOOver.innerHTML='Game Over'
+  playBtn.innerHTML='Finish'
+  checkHighScore(board.score);
+  clearInterval(playgame)
+  playgame=null
+}
 
 // handle click to play
 playBtn.addEventListener('click', ()=> {
@@ -448,7 +460,7 @@ playBtn.addEventListener('click', ()=> {
     playBtn.innerHTML='Play'
     playgame=setInterval(() => {
         brick.moveDown()
-    }, 100)
+    }, 500)
     brick.drawLayout()
   }
 }
@@ -476,14 +488,7 @@ document.addEventListener('keydown', (e) => {
 })
 
 
-handleGameOver=() =>{
-  board.gameOver=true;
-  gameOOver.innerHTML='Game Over'
-  playBtn.innerHTML='Finish'
-  checkHighScore(board.score);
-  clearInterval(playgame)
-  playgame=null
-}
+
 
 
 

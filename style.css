@@ -39,9 +39,18 @@ body {
     justify-content: space-around;
 }
 
-#high-score {
+#table-score {
     margin-top: -5px;
     list-style-type: none;
     line-height: 2rem;
-    padding-left: 18px;
 }
+th {
+    width: 200px;
+}
+
+td {
+    text-align: center;
+}
+table, th, td {
+    border: 1px solid black;
+  }
